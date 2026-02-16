@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section (Large banner like reference sites) -->
+<section class="relative h-96 bg-cover bg-center" style="background-image: linear-gradient(rgba(45, 80, 22, 0.7), rgba(45, 80, 22, 0.7)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600');">
+    <div class="max-w-7xl mx-auto px-4 h-full flex items-center">
+        <div class="text-white max-w-2xl">
+            <h1 class="text-5xl font-bold mb-4">Fresh Vegetables Delivered Fast</h1>
+            <p class="text-xl mb-8">Experience the Terra Foods difference - quality products, efficient delivery, powered by AI</p>
+            <a href="/products/" class="btn-primary inline-block">Shop Now →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1: AI Agent -->
+        <div class="bg-white p-8 rounded-lg shadow-md text-center">
+            <div class="text-4xl mb-4">🤖</div>
+            <h3 class="text-xl font-bold mb-2">AI Shopping Assistant</h3>
+            <p class="text-gray-600">Our smart AI helps you find exactly what you need, suggests recipes, and makes ordering effortless</p>
+        </div>
+        
+        <!-- Feature 2: WhatsApp -->
+        <div class="bg-white p-8 rounded-lg shadow-md text-center">
+            <div class="text-4xl mb-4"></div>
+            <h3 class="text-xl font-bold mb-2">Order via WhatsApp</h3>
+            <p class="text-gray-600">Simply message us on WhatsApp - our chatbot takes your order and confirms delivery instantly</p>
+        </div>
+        
+        <!-- Feature 3: Fast Delivery -->
+        <div class="bg-white p-8 rounded-lg shadow-md text-center">
+            <div class="text-4xl mb-4">⚡</div>
+            <h3 class="text-xl font-bold mb-2">Lightning Fast Delivery</h3>
+            <p class="text-gray-600">Fresh products from farm to your door in record time</p>
+        </div>
+        
+    </div>
+</section>
+```
+<!-- Categories Section -->
+<section class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Shop by Category</h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            
+            <!-- Vegetables -->
+            <a href="/products/?category=Vegetables" class="group">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition product-card">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=400&fit=crop" 
+                             alt="Fresh Vegetables" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Vegetables</h3>
+                        <p class="text-sm text-gray-600">Fresh & Organic</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Fruits -->
+            <a href="/products/?category=Fruits" class="group">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition product-card">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&h=400&fit=crop" 
+                             alt="Fresh Fruits" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Fruits</h3>
+                        <p class="text-sm text-gray-600">Sweet & Juicy</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Herbs (Changed from Grains) -->
+            <a href="/products/?category=Herbs" class="group">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition product-card">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1607518429945-32e40a769b8a?w=400&h=400&fit=crop" 
+                             alt="Fresh Herbs - Mint, Parsley" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Herbs</h3>
+                        <p class="text-sm text-gray-600">Mint, Parsley & More</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Spices (Changed from Dairy) -->
+            <a href="/products/?category=Spices" class="group">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition product-card">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a0b3b83a0b1f?w=400&h=400&fit=crop" 
+                             alt="Spices - Garlic, Ginger" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Spices</h3>
+                        <p class="text-sm text-gray-600">Garlic, Ginger & More</p>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Pure Virgin Oils (NEW) -->
+            <a href="/products/?category=Oils" class="group">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition product-card">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=400&fit=crop" 
+                             alt="Pure Virgin Oils - Coconut Oil" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Pure Virgin Oils</h3>
+                        <p class="text-sm text-gray-600">Coconut, Olive & More</p>
+                    </div>
+                </div>
+            </a>
+            
+        </div>
+    </div>
+</section>
+```
+<!-- Trust Badges -->
+<section class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+            <div class="text-3xl font-bold text-green-700">100%</div>
+            <p class="text-gray-600">Fresh</p>
+        </div>
+        <div>
+            <div class="text-3xl font-bold text-green-700">24/7</div>
+            <p class="text-gray-600">Support</p>
+        </div>
+        <div>
+            <div class="text-3xl font-bold text-green-700">24hr</div>
+            <p class="text-gray-600">Delivery</p>
+        </div>
+        <div>
+            <div class="text-3xl font-bold text-green-700">5★</div>
+            <p class="text-gray-600">Rated</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

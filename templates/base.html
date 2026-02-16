@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Terra Foods - Fresh Vegetables, Fruits & more, Delivered Fast">
+    
+    <title>{% block title %}Terra Foods - Fresh & Organic Groceries{% endblock %}</title>
+    
+    <!-- Tailwind CSS from CDN (for beautiful styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Custom color scheme inspired by reference sites */
+        :root {
+            --primary-green: #2d5016;
+            --light-green: #4a7c2c;
+            --cream: #f8f6f0;
+            --dark-text: #1a1a1a;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--light-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold" style="color: var(--primary-green);">
+                         Terra Foods
+                    </a>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-green-700 font-medium">Home</a>
+                    <a href="/products/" class="text-gray-700 hover:text-green-700 font-medium">Products</a>
+                    <a href="#about" class="text-gray-700 hover:text-green-700 font-medium">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-green-700 font-medium">Contact</a>
+                </div>
+                
+                <!-- Cart & Account -->
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-700 hover:text-green-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-primary">Order Now</button>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Company Info -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4"> Terra Foods</h3>
+                    <p class="text-gray-400">Fresh, Vegetables, Fruits & More Delivered straight from the farm to your kitchen.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/products/" class="hover:text-white">Products</a></li>
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="font-semibold mb-4">Customer Service</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Delivery Info</a></li>
+                        <li><a href="#" class="hover:text-white">Returns</a></li>
+                        <li><a href="#" class="hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white">Track Order</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>📞 +233 54 446 8232</li>
+                        <li>📧 sales@terrafoods.com</li>
+                        <li>📍 Accra, Ghana</li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Terra Foods. All rights reserved. | Built with ❤️ in Ghana</p>
+            </div>
+        </div>
+    </footer>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

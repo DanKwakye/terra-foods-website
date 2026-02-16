@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if current_category %}{{ current_category.name }} - {% endif %}Products - Terra Foods
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-green-700 to-green-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold mb-2">
+            {% if current_category %}
+                {{ current_category.icon }} {{ current_category.name }}
+            {% else %}
+                Our Products
+            {% endif %}
+        </h1>
+        <p class="text-green-100">
+            {% if current_category %}
+                {{ current_category.description }}
+            {% else %}
+                Fresh, organic, and delivered with care
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Filters & Products -->
+<section class="max-w-7xl mx-auto px-4 py-12">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Sidebar Filters -->
+        <aside class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-md p-6 sticky top-20">
+                
+                <h3 class="font-bold text-lg mb-4">Categories</h3>
+                
+                <!-- All Products Button -->
+                <a href="/products/" 
+                   class="block w-full px-4 py-3 mb-3 text-center rounded-lg font-medium transition {% if not current_category %}bg-green-700 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                    All Products
+                </a>
+                
+                <!-- Category Buttons -->
+                <div class="space-y-2">
+                    {% for category in categories %}
+                    <a href="/products/?category={{ category.slug }}" 
+                       class="flex items-center justify-between px-4 py-3 rounded-lg transition {% if current_category.slug == category.slug %}bg-green-50 text-green-700 font-medium border-2 border-green-700{% else %}text-gray-700 hover:bg-gray-50 border-2 border-transparent{% endif %}">
+                        <span class="flex items-center gap-2">
+                            <span class="text-2xl">{{ category.icon }}</span>
+                            <span>{{ category.name }}</span>
+                        </span>
+                        <span class="text-sm {% if current_category.slug == category.slug %}text-green-600{% else %}text-gray-500{% endif %}">
+                            {{ category.products.count }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                
+                <!-- Quick Filters -->
+                <div class="border-t mt-6 pt-6">
+                    <h4 class="font-semibold mb-3 text-gray-700">Quick Filters</h4>
+                    <a href="/products/?featured=true" 
+                       class="block px-4 py-2 text-sm rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                        ⭐ Featured Products
+                    </a>
+                </div>
+                
+            </div>
+        </aside>
+        
+        <!-- Products Grid -->
+        <div class="lg:col-span-3">
+            
+            <!-- Product Count -->
+            <div class="flex justify-between items-center mb-6">
+                <p class="text-gray-600">
+                    Showing <strong>{{ products.count }}</strong> product{{ products.count|pluralize }}
+                </p>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                {% for product in products %}
+                <a href="/products/{{ product.slug }}/" class="block group">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition product-card h-full flex flex-col">
+                        
+                        <!-- Product Image -->
+                        <div class="relative h-56 bg-gray-100 overflow-hidden">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" 
+                                 alt="{{ product.name }}" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+                                <span class="text-6xl">{{ product.category.icon }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Featured Badge -->
+                            {% if product.is_featured %}
+                            <div class="absolute top-2 left-2">
+                                <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                                    ⭐ Featured
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Product Info -->
+                        <div class="p-4 flex-grow flex flex-col">
+                            <!-- Category Badge -->
+                            <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full mb-2 w-fit">
+                                {{ product.category.name }}
+                            </span>
+                            
+                            <!-- Product Name -->
+                            <h3 class="font-bold text-lg mb-2 text-gray-800 group-hover:text-green-700 transition">
+                                {{ product.name }}
+                            </h3>
+                            
+                            <!-- Description -->
+                            <p class="text-gray-600 text-sm mb-3 flex-grow line-clamp-2">
+                                {{ product.description|truncatewords:15 }}
+                            </p>
+                            
+                            <!-- Price -->
+                            <div class="flex items-baseline gap-2 mb-3">
+                                <span class="text-2xl font-bold text-green-700">₵{{ product.price }}</span>
+                                <span class="text-xs text-gray-500">/ {{ product.unit }}</span>
+                            </div>
+                            
+                            <!-- Stock Info -->
+                            <div class="text-sm text-gray-500 mb-3">
+                                {% if product.stock > 0 %}
+                                    In Stock: {{ product.stock }} {{ product.unit }}{{ product.stock|pluralize }}
+                                {% else %}
+                                    <span class="text-red-600 font-medium">Out of Stock</span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- View Details Button -->
+                            <button class="w-full btn-primary text-center mt-auto">
+                                View Details →
+                            </button>
+                        </div>
+                        
+                    </div>
+                </a>
+                {% empty %}
+                <!-- No Products Found -->
+                <div class="col-span-full text-center py-12">
+                    <div class="text-6xl mb-4">📦</div>
+                    <p class="text-gray-500 text-lg mb-2">No products found.</p>
+                    <a href="/products/" class="text-green-700 font-medium hover:underline">
+                        View all products →
+                    </a>
+                </div>
+                {% endfor %}
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+</section>
+
+{% endblock %}
