@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 # Category Model (Main categories only)
 class Category(models.Model):
     """

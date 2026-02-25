@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'orders',
     'ai_agent',
     'users',
-    'pages',
+    'page',
     'sectors',
 
     

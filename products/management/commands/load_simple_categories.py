@@ -8,37 +8,37 @@ class Command(BaseCommand):
         categories_data = [
             {
                 'name': 'Vegetables',
-                'icon': '🥬 🥒',
+                'icon': '',
                 'description': 'Fresh organic vegetables from local farms',
                 'order': 1,
             },
             {
                 'name': 'Fruits',
-                'icon': '🍇',
+                'icon': '',
                 'description': 'Sweet, juicy fruits picked at peak ripeness',
                 'order': 2,
             },
             {
                 'name': 'Herbs',
-                'icon': '🌿',
+                'icon': '',
                 'description': 'Aromatic fresh herbs for cooking and garnishing',
                 'order': 3,
             },
             {
                 'name': 'Spices',
-                'icon': '🧄',
+                'icon': '',
                 'description': 'Fresh spices and aromatics for authentic flavors',
                 'order': 4,
             },
             {
                 'name': 'Oils',
-                'icon': '🫒',
+                'icon': '',
                 'description': 'Pure, virgin oils for cooking and wellness',
                 'order': 5,
             },
             {
                 "name": "Eggs",
-                "icon": "🥚",
+                "icon": "",
                 "description": 'Farm fresh eggs supplied in bulk for hotels, restaurants, and catering services.',
                 'order': 5,
             },

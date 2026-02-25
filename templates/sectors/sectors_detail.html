@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ sector.name }} - Terra Foods
+{% endblock %}
+
+{% block content %}
+
+{% include "sectors/partials/_hero.html" %}
+{% include "sectors/partials/_intro.html" %}
+
+{% for section in sector.feature_sections.all %}
+  {% include "sectors/partials/_feature_section.html" %}
+{% endfor %}
+
+{% include "sectors/partials/_image_section.html" %}
+{% include "sectors/partials/_final_cta.html" %}
+
+{% endblock %}
