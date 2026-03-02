@@ -1,22 +1,76 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 from .models import Category, Product
+import random
+from datetime import datetime
 
 def home(request):
-    """Homepage with featured products"""
-    featured_products = Product.objects.filter(is_available=True, is_featured=True)[:8]
+    """
+    Homepage with weekly featured products (5 random with category diversity)
+    """
     categories = Category.objects.filter(is_active=True)
     
+    # Get 5 featured products for this week
+    # Prioritize different categories for diversity
+    featured_products = get_weekly_featured_products()
+    
     context = {
-        'products': featured_products,
+        'featured_products': featured_products,
         'categories': categories,
     }
     return render(request, 'home.html', context)
 
 
-def product_list(request):
-    """Product list with category filtering"""
-    products = Product.objects.filter(is_available=True)
+def get_weekly_featured_products():
+    """
+    Get 5 featured products for the week with category diversity
+    Changes every Monday (week starts on Monday)
+    """
+    # Get current week number (changes every Monday)
+    today = datetime.now()
+    week_number = today.isocalendar()[1]  # ISO week number
+    
+    # Use week number as seed for consistent results during the week
+    random.seed(week_number)
+    
+    # Get all available products grouped by category
+    all_products = list(Product.objects.filter(is_available=True).select_related('category'))
+    
+    if not all_products:
+        return []
+    
+    # Try to get one product from each category first (for diversity)
     categories = Category.objects.filter(is_active=True)
+    featured = []
+    used_categories = set()
+    
+    for category in categories:
+        category_products = [p for p in all_products if p.category == category and p.category not in used_categories]
+        if category_products and len(featured) < 5:
+            product = random.choice(category_products)
+            featured.append(product)
+            used_categories.add(category)
+    
+    # If we still need more products, pick random ones
+    while len(featured) < 5 and len(all_products) > len(featured):
+        remaining = [p for p in all_products if p not in featured]
+        if remaining:
+            featured.append(random.choice(remaining))
+        else:
+            break
+    
+    # Reset random seed
+    random.seed()
+    
+    return featured[:5]
+
+
+def product_list(request):
+    """
+    Product list with category filtering
+    """
+    products = Product.objects.filter(is_available=True)
+    categories = Category.objects.filter(is_active=True).annotate(product_count=Count('products'))
     
     current_category = None
     category_slug = request.GET.get('category')
@@ -38,7 +92,9 @@ def product_list(request):
 
 
 def product_detail(request, product_slug):
-    """Product detail page"""
+    """
+    Product detail page
+    """
     product = get_object_or_404(Product, slug=product_slug, is_available=True)
     
     # Increment view counter

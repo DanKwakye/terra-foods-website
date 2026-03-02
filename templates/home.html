@@ -1,5 +1,20 @@
 {% extends 'base.html' %}
 
+{% block title %}Terra Foods - Fresh Organic Groceries Delivered Throughout Accra{% endblock %}
+
+{% block extra_css %}
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+.swiper-button-next, .swiper-button-prev {
+    color: #2d5016;
+}
+.swiper-pagination-bullet-active {
+    background: #2d5016;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <!-- Hero Section (Large banner like reference sites) -->
@@ -12,6 +27,7 @@
         </div>
     </div>
 </section>
+
 
 <!-- USPs Bar -->
 <section class="bg-gray-50 py-8 border-y border-gray-200">
@@ -60,17 +76,59 @@
     </div>
 </section>
 
-</section> -->
-<!-- Featured Products -->
+
+
+<!-- CATEGORIES CAROUSEL (NEW!) -->
+
+<section class="bg-gray-50 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="section-title">Shop by Category</h2>
+            <p class="section-subtitle">Browse our complete range of fresh organic produce</p>
+        </div>
+        
+        <!-- Categories Swiper -->
+        <div class="swiper categoriesSwiper">
+            <div class="swiper-wrapper">
+                {% for category in categories %}
+                <div class="swiper-slide">
+                    <a href="/products/?category={{ category.slug }}" class="group block">
+                        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-green-500 transition-all hover:shadow-xl h-64">
+                            <div class="h-40 bg-gray-50 flex items-center justify-center group-hover:bg-green-50 transition overflow-hidden">
+                                {% if category.image %}
+                                <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                                {% else %}
+                                <span class="text-8xl">{{ category.icon }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="font-bold text-xl group-hover:text-green-700 transition mb-2">{{ category.name }}</h3>
+                                <p class="text-sm text-gray-600">{{ category.products.count }} products</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Featured Products (Weekly Random 5) -->
 <section class="py-20">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="section-title">Featured Products</h2>
+            <h2 class="section-title">Featured This Week</h2>
             <p class="section-subtitle">Handpicked selection of our freshest produce</p>
         </div>
         
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            {% for product in products %}
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
+            {% for product in featured_products %}
             <a href="/products/{{ product.slug }}/" class="group block bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-green-500 transition-all hover:shadow-lg">
                 <div class="aspect-square bg-gray-100 overflow-hidden">
                     {% if product.image %}
@@ -99,39 +157,108 @@
     </div>
 </section>
 
-<!-- Categories Section -->
-<section class="bg-gray-50 py-20">
+
+
+<!-- OUR CLIENTS CAROUSEL SECTION (NEW!) -->
+
+<section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="section-title">Shop by Category</h2>
-            <p class="section-subtitle">Browse our complete range of fresh organic produce</p>
+            <h2 class="section-title">Our Clients</h2>
+            <p class="section-subtitle">We proudly serve businesses across Accra</p>
         </div>
         
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {% for category in categories %}
-            <a href="/products/?category={{ category.slug }}" class="group">
-                <div class="bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-green-500 transition-all hover:shadow-lg">
-                    <div class="aspect-square bg-gray-50 flex items-center justify-center group-hover:bg-green-50 transition">
-                        {% if category.image %}
-                        <img src="{{ category.image.url }}" 
-                             alt="{{ category.name }}" 
-                             class="w-full h-full object-cover">
-                        {% else %}
-                        <span class="text-7xl">{{ category.icon }}</span>
-                        {% endif %}
-                    </div>
-                    <div class="p-4 text-center">
-                        <h3 class="font-semibold text-base group-hover:text-green-700 transition">{{ category.name }}</h3>
+        <!-- Clients Swiper -->
+        <div class="swiper clientsSwiper">
+            <div class="swiper-wrapper">
+                
+                <!-- Slide 1: Hotels -->
+                <div class="swiper-slide">
+                    <div class="relative h-96 rounded-lg overflow-hidden shadow-lg" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop'); background-size: cover; background-position: center;">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+                            <h3 class="text-4xl font-bold mb-4">Hotels</h3>
+                            <p class="text-xl text-center max-w-2xl">Premium fresh produce delivered daily to Accra's leading hotels</p>
+                        </div>
                     </div>
                 </div>
-            </a>
-            {% endfor %}
+                
+                <!-- Slide 2: Restaurants -->
+                <div class="swiper-slide">
+                    <div class="relative h-96 rounded-lg overflow-hidden shadow-lg" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=800&fit=crop'); background-size: cover; background-position: center;">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+                            <h3 class="text-4xl font-bold mb-4">Restaurants</h3>
+                            <p class="text-xl text-center max-w-2xl">Restaurant-grade ingredients for Accra's finest dining establishments</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Discover More -->
+                <div class="swiper-slide">
+                    <div class="relative h-96 rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-green-700 to-green-900">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+                            <h3 class="text-4xl font-bold mb-4">Discover More</h3>
+                            <p class="text-xl text-center max-w-2xl mb-8">We also serve Executive Chefs, Event Catering, and Corporate Offices</p>
+                            <a href="/sectors/hotels/" class="btn-primary bg-white text-green-700 hover:bg-gray-100 text-lg">
+                                Explore All Sectors
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
         </div>
     </div>
 </section>
 
+
+<!-- STATISTICS SECTION (NEW!) -->
+
+<section class="bg-green-500 py-20">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+            
+            <div>
+                <div class="text-5xl font-bold mb-2">
+                    <span class="counter" data-target="150">0</span>+
+                </div>
+                <p class="text-lg text-green-100">Agriculture Products</p>
+            </div>
+            
+            <div>
+                <div class="text-5xl font-bold mb-2">
+                    <span class="counter" data-target="20">0</span>+
+                </div>
+                <p class="text-lg text-green-100">Projects Completed</p>
+            </div>
+            
+            <div>
+                <div class="text-5xl font-bold mb-2">
+                    <span class="counter" data-target="30">0</span>+
+                </div>
+                <p class="text-lg text-green-100">Satisfied Clients</p>
+            </div>
+            
+            <div>
+                <div class="text-5xl font-bold mb-2">
+                    <span class="counter" data-target="25">0</span>+
+                </div>
+                <p class="text-lg text-green-100">Expert Farmers</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
 <!-- How It Works -->
-<section class="py-20">
+<!--<section class="bg-gray-50 py-20">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="section-title">How It Works</h2>
@@ -175,29 +302,115 @@
             </a>
         </div>
     </div>
-</section>{% if sector.products.all %}
-<section class="bg-gray-50 py-24 fade-section">
-    <div class="max-w-6xl mx-auto px-6">
+</section> -->
 
-        <h2 class="text-3xl font-bold mb-12 text-center">
-            Featured Products
+<!-- CTA Section -->
+<section class="bg-green-700 py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold text-white mb-4">
+            Ready to Experience Fresh?
         </h2>
-
-        <div class="flex gap-6 overflow-x-auto pb-6 scroll-smooth">
-            {% for product in sector.products.all %}
-            <div class="min-w-[280px] bg-white rounded-xl shadow hover:shadow-lg transition">
-                <img src="{{ product.image.url }}" class="h-56 w-full object-cover rounded-t-xl">
-                <div class="p-6">
-                    <h3 class="font-semibold text-lg mb-2">{{ product.name }}</h3>
-                    <p class="text-gray-500 text-sm">{{ product.short_description }}</p>
-                </div>
-            </div>
-            {% endfor %}
+        <p class="text-xl text-green-100 mb-8">
+            Order now and get lightning-fast delivery throughout Accra
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://wa.me/233544468232?text=Hi! I'd like to place an order" 
+               target="_blank"
+               class="bg-white text-green-700 px-8 py-4 rounded font-semibold hover:bg-gray-100 transition text-lg">
+                Order via WhatsApp
+            </a>
+            <a href="tel:+233544468232" 
+               class="bg-green-900 text-white px-8 py-4 rounded font-semibold hover:bg-green-800 transition text-lg">
+                Call to Order
+            </a>
         </div>
-
     </div>
 </section>
-{% endif %}
 
+{% endblock %}
 
+{% block extra_js %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+// Clients Swiper
+const clientsSwiper = new Swiper('.clientsSwiper', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.clientsSwiper .swiper-button-next',
+        prevEl: '.clientsSwiper .swiper-button-prev',
+    },
+});
+
+// Categories Swiper
+const categoriesSwiper = new Swiper('.categoriesSwiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: false,
+    navigation: {
+        nextEl: '.categoriesSwiper .swiper-button-next',
+        prevEl: '.categoriesSwiper .swiper-button-prev',
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+        },
+        1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+        },
+    },
+});
+
+// Animated Counter
+function animateCounter(element) {
+    const target = parseInt(element.getAttribute('data-target'));
+    const duration = 2000; // 2 seconds
+    const step = target / (duration / 16); // 60fps
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, 16);
+}
+
+// Trigger counter animation when in view
+const observerOptions = {
+    threshold: 0.5
+};
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && entry.target.textContent === '0') {
+            animateCounter(entry.target);
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.counter').forEach(counter => {
+    counterObserver.observe(counter);
+});
+</script>
 {% endblock %}
