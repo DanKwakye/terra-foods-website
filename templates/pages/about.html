@@ -1,11 +1,14 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}About Us - Terra Foods{% endblock %}
+{% block title %}About | Terra Foods{% endblock %}
 
 {% block content %}
 
+
 <!-- Hero Section -->
 <section class="bg-green-700 text-white py-20">
+<!--<section class="relative h-96 bg-cover bg-center" style="background-image: linear-gradient(rgba(45, 80, 22, 0.7), rgba(45, 80, 22, 0.7)), url('https://unsplash.com/photos/bowl-of-tomatoes-served-on-person-hand-qgHGDbbSNm8');">-->
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h1 class="text-5xl font-bold mb-6">About Terra Foods</h1>
         <p class="text-xl text-green-100">
@@ -26,30 +29,107 @@
 </div>
 
 <!-- Our Story -->
-<section class="py-20">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="text-4xl font-bold mb-6">Our Story</h2>
-                <div class="space-y-4 text-gray-700 leading-relaxed">
-                    <p>
-                        Terra Foods was founded with a simple mission: to make fresh,organic produce accessible to everyone in Accra. We believe that quality food shouldn't be a luxury—it should be a standard.
-                    </p>
-                    <p>
-                        Working directly with local farmers, we've built a supply chain that guarantees freshness from farm to your doorstep. Every product we deliver has been carefully selected for quality, freshness, and nutritional value.
-                    </p>
-                    <p>
-                        Today, we serve restaurants, hotels, executive chefs, corporate entities, supermarkets,  across Accra, delivering the finest organic produce with lightning-fast service and uncompromising quality.
-                    </p>
-                </div>
+<section class="py-24">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- TEXT -->
+            <div class="space-y-6 reveal">
+                <h2 class="text-4xl font-bold text-green-700">
+                    Our Story
+                </h2>
+
+                <p class="text-gray-700 leading-relaxed text-lg">
+                    Terra Foods was founded with a simple mission: to make fresh,
+                    organic produce accessible across Accra. We believe quality
+                    food should not be a luxury — it should be the standard.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed text-lg">
+                    Working directly with trusted farmers, we built a reliable
+                    supply chain that connects producers to businesses that need
+                    consistent, high-quality ingredients.
+                </p>
+
+                <p class="text-gray-700 leading-relaxed text-lg">
+                    Every product we deliver is carefully selected for freshness,
+                    taste, and nutritional value.
+                </p>
             </div>
-            <div class="bg-gray-200 aspect-square rounded-lg overflow-hidden">
-                <!-- Placeholder for your image -->
-                <div class="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                    <span class="text-9xl"></span>
+
+
+            <!-- IMAGE -->
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl reveal">
+
+                <div class="parallax">
+
+                    <img
+                        src="{% static 'images/about/farmer-1.jpg' %}"
+                        alt="Farmers harvesting produce"
+                        class="w-full h-[500px] object-cover zoom-img"
+                    >
+
                 </div>
+
             </div>
+
         </div>
+
+    </div>
+</section>
+
+
+<!-- What We Do -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- IMAGE -->
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl reveal">
+
+                <div class="parallax">
+
+                    <img
+                        src="{% static 'images/about/salad-1.jpg' %}"
+                        alt="Fresh produce supply"
+                        class="w-full h-[500px] object-cover zoom-img"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TEXT -->
+            <div class="space-y-6 reveal">
+
+                <h2 class="text-4xl font-bold text-green-700">
+                    What We Do
+                </h2>
+
+                <p class="text-gray-700 text-lg leading-relaxed">
+                    At Terra Foods, we believe the ingredients you use define
+                    the quality of every meal.
+                </p>
+
+                <p class="text-gray-700 text-lg leading-relaxed">
+                    We source and deliver premium fruits, vegetables, herbs,
+                    and specialty ingredients selected for freshness,
+                    consistency, and quality.
+                </p>
+
+                <p class="text-gray-700 text-lg leading-relaxed">
+                    Today we supply hotels, restaurants, executive chefs,
+                    corporate kitchens, caterers, and supermarkets across
+                    Accra with dependable fresh produce.
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
 </section>
 
@@ -216,5 +296,50 @@
         </div>
     </div>
 </section>
+
+<style>
+
+.zoom-img{
+    transition: transform 1.2s ease;
+}
+
+.zoom-img:hover{
+    transform: scale(1.08);
+}
+
+.parallax img{
+    transform: scale(1.1);
+}
+
+.reveal{
+    opacity:0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+
+.reveal.active{
+    opacity:1;
+    transform: translateY(0);
+}
+
+</style>
+
+<script>
+
+const reveals = document.querySelectorAll(".reveal");
+
+const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add("active");
+        }
+    });
+});
+
+reveals.forEach(el=>{
+    observer.observe(el);
+});
+
+</script>
 
 {% endblock %}
