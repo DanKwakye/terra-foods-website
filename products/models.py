@@ -4,7 +4,14 @@ from django.utils.text import slugify
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, help_text="Short description shown on homepage/cards")
+    
+    # NEW: Long description for product list page
+    product_page_description = models.TextField(
+        blank=True, 
+        help_text="Detailed description shown on product list page when category is selected"
+    )
+    
     icon = models.CharField(max_length=10, default='🥬', help_text="Emoji icon")
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -21,7 +28,6 @@ class Category(models.Model):
     class Meta:
         ordering = ['order', 'name']
         verbose_name_plural = "Categories"
-
 
 class Product(models.Model):
     name = models.CharField(max_length=200)

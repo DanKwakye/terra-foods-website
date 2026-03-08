@@ -6,13 +6,13 @@ from .models import Sector
 class SectorAdmin(admin.ModelAdmin):
     list_display = ['name', 'hero_h1', 'is_active', 'order']
     list_editable = ['is_active', 'order']
-    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'hero_h1']
     list_filter = ['is_active']
     
+   
+    
     fieldsets = (
-        (' EDITING EXISTING SECTOR', {
-            'description': 'You are editing an existing sector. DO NOT change the name.',
+        ('Basic Settings', {
             'fields': ('name', 'slug', 'is_active', 'order', 'meta_description')
         }),
         ('SECTION 1: Hero (Text Left, Image Right)', {
@@ -46,6 +46,6 @@ class SectorAdmin(admin.ModelAdmin):
     )
     
     def get_readonly_fields(self, request, obj=None):
-        if obj:
+        if obj:  # Editing existing - make slug readonly
             return ['slug']
         return []

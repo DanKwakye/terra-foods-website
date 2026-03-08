@@ -85,25 +85,31 @@
         <div class="max-w-4xl mx-auto">
             <!-- Section Title -->
             <div class="text-center mb-12">
-                <h2 class="section-title">Why Choose Us</h2>
+                <h2 class="section-title text-green-700">Why Choose Us</h2>
             </div>
             
             <!-- Content -->
-            <div class="space-y-6 text-gray-700 leading-relaxed" style="font-size: 17px; line-height: 1.8;">
+            <div class="text-center space-y-6 text-gray-700 leading-relaxed" style="font-size: 16px; line-height: 1.8;">
                 <p class="font-medium text-lg">
-                    Terra Foods is committed to delivering premium fresh produce with reliability, structure, and consistency. We supply hotels, restaurants, executive chefs, caterers, corporates, and supermarkets across Accra with punctual deliveries and uncompromised quality.
+                    Terra Foods is committed to delivering premium fresh produce with reliability, structure, and consistency. We supply hotels, 
+                    restaurants, executive chefs, caterers, corporates, and supermarkets across Accra with punctual deliveries and uncompromised quality.
                 </p>
                 
                 <p>
-                    We understand how demanding professional kitchens can be. Sourcing high-quality fruits and vegetables consistently should not be a daily struggle, it should be seamless.
+                    We understand how demanding professional kitchens can be. 
+                    Sourcing high-quality fruits and vegetables consistently should not be a daily struggle, 
+                    it should be seamless.
                 </p>
                 
                 <p>
-                    Through strong partnerships with trusted local farmers and verified importers, we provide access to a wide range of fresh produce, from everyday staples to seasonal selections, exotics, prepared vegetables, herbs, and specialty ingredients.
+                    Through strong partnerships with trusted local farmers and verified importers, 
+                    we provide access to a wide range of fresh produce, from everyday staples to seasonal selections, 
+                    exotics, prepared vegetables, herbs, and specialty ingredients.
                 </p>
                 
                 <p class="font-medium">
-                    Partner with Terra Foods for dependable supply, structured pricing, and produce you can trust, delivered directly to your kitchen.
+                    Partner with Terra Foods for dependable supply, structured pricing, 
+                    and produce you can trust, delivered directly to your kitchen.
                 </p>
             </div>
             
@@ -120,12 +126,13 @@
     </div>
 </section>
 
-<!-- CATEGORIES CAROUSEL (NEW!) --> 
+
+<!-- CATEGORIES CAROUSEL (3 LARGE IMAGES) -->
 
 <section class="bg-gray-50 py-20">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="section-title">Shop by Category</h2>
+            <h2 class="section-title text-green-700">Shop by Category</h2>
             <p class="section-subtitle">Browse our complete range of fresh organic produce</p>
         </div>
         
@@ -135,17 +142,21 @@
                 {% for category in categories %}
                 <div class="swiper-slide">
                     <a href="/products/?category={{ category.slug }}" class="group block">
-                        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-green-500 transition-all hover:shadow-xl h-64">
-                            <div class="h-40 bg-gray-50 flex items-center justify-center group-hover:bg-green-50 transition overflow-hidden">
+                        <div class="bg-white rounded-lg overflow-hidden border-2 border-gray-200 hover:border-green-500 transition-all hover:shadow-2xl h-96">
+                            <!-- Large Image Container -->
+                            <div class="h-72 bg-gray-50 flex items-center justify-center group-hover:bg-green-50 transition overflow-hidden">
                                 {% if category.image %}
-                                <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                                <img src="{{ category.image.url }}" 
+                                     alt="{{ category.name }}" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                                 {% else %}
-                                <span class="text-8xl">{{ category.icon }}</span>
+                                <span class="text-9xl">{{ category.icon }}</span>
                                 {% endif %}
                             </div>
-                            <div class="p-6 text-center">
-                                <h3 class="font-bold text-xl group-hover:text-green-700 transition mb-2">{{ category.name }}</h3>
-                                <p class="text-sm text-gray-600">{{ category.products.count }} products</p>
+                            <!-- Category Info -->
+                            <div class="p-6 text-center bg-white">
+                                <h3 class="font-bold text-2xl group-hover:text-green-700 transition mb-2">{{ category.name }}</h3>
+                                <p class="text-base text-gray-600 font-medium">{{ category.products.count }} products available</p>
                             </div>
                         </div>
                     </a>
@@ -153,9 +164,12 @@
                 {% endfor %}
             </div>
             
-            <!-- Navigation -->
+            <!-- Navigation Arrows -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
+            
+            <!-- Pagination Dots -->
+            <div class="swiper-pagination mt-8"></div>
         </div>
     </div>
 </section>
@@ -165,7 +179,7 @@
 <section class="py-20">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="section-title">Featured This Week</h2>
+            <h2 class="section-title text-green-700">Featured This Week</h2>
             <p class="section-subtitle">Handpicked selection of our freshest produce</p>
         </div>
         
@@ -206,7 +220,7 @@
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="section-title">Our Clients</h2>
+            <h2 class="section-title text-green-700">Our Clients</h2>
             <p class="section-subtitle">We proudly serve businesses across Accra</p>
         </div>
         
@@ -395,24 +409,31 @@ const clientsSwiper = new Swiper('.clientsSwiper', {
     },
 });
 
-// Categories Swiper
+// Categories Swiper - 3 Large Images Showing
 const categoriesSwiper = new Swiper('.categoriesSwiper', {
     slidesPerView: 1,
     spaceBetween: 20,
     loop: false,
+    pagination: {
+        el: '.categoriesSwiper .swiper-pagination',
+        clickable: true,
+    },
     navigation: {
         nextEl: '.categoriesSwiper .swiper-button-next',
         prevEl: '.categoriesSwiper .swiper-button-prev',
     },
     breakpoints: {
+        // Mobile: 1 slide
+        320: {
+            slidesPerView: 1,
+            spaceBetween: 15,
+        },
+        // Tablet: 2 slides
         640: {
             slidesPerView: 2,
             spaceBetween: 20,
         },
-        768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-        },
+        // Desktop: 3 slides (THIS IS KEY)
         1024: {
             slidesPerView: 3,
             spaceBetween: 30,
