@@ -15,14 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 from products import views as product_views
 from page import views as page_views
 from sectors import views as sector_views
-from ai_agent import views as ai_views
+#from ai_agent import views as ai_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,7 +40,8 @@ urlpatterns = [
     path('sectors/<slug:sector_slug>/', sector_views.sector_detail, name='sector_detail'),
 
     #Ai Agent
-    path('api/chat', ai_views.chat, name='ai_chat')
+    #path('api/chat', ai_views.chat, name='ai_chat')
+    path('api/', include('ai_agent.urls')),
 
 ]
 

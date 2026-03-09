@@ -372,204 +372,488 @@
     
     {% block extra_js %}{% endblock %}
 
-    <!-- AI Chat Widget -->
-    <div id="aiChatWidget" class="fixed bottom-6 right-6 z-50">
-        <!-- Chat Button -->
-        <button id="aiChatBtn" class="bg-green-700 text-white w-16 h-16 rounded-full shadow-2xl hover:bg-green-800 transition flex items-center justify-center">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-            </svg>
-        </button>
-        
-        <!-- Chat Window -->
-        <div id="aiChatWindow" class="hidden absolute bottom-20 right-0 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col border border-gray-200">
-            <!-- Header -->
-            <div class="bg-green-700 text-white p-4 rounded-t-lg flex justify-between items-center">
-                <div>
-                    <h3 class="font-bold text-lg">Terra Foods Assistant</h3>
-                    <p class="text-sm text-green-100">Ask me anything!</p>
-                </div>
-                <button id="aiChatClose" class="text-white hover:text-gray-200">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Messages -->
-            <div id="aiChatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
-                <div class="flex gap-2">
-                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-green-700">🤖</span>
-                    </div>
-                    <div class="bg-gray-100 p-3 rounded-lg max-w-[80%]">
-                        <p class="text-sm">Hi! I'm the Terra Foods assistant. How can I help you today?</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Input -->
-            <div class="p-4 border-t border-gray-200">
-                <form id="aiChatForm" class="flex gap-2">
-                    <input 
-                        type="text" 
-                        id="aiChatInput" 
-                        placeholder="Type your message..."
-                        class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-green-500"
-                    >
-                    <button type="submit" class="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition">
-                        Send
-                    </button>
-                </form>
+   <!-- ============================================ -->
+<!-- AI CHAT WIDGET - YAA (APPEARS AFTER 1 MIN) -->
+<!-- ============================================ -->
+
+<!-- Chat Button (Initially Hidden) -->
+<div id="chatButton" class="fixed bottom-6 right-6 z-50 hidden">
+    <button onclick="toggleChat()" 
+            class="bg-green-700 hover:bg-green-800 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl transition-all hover:scale-110 relative group">
+        <!-- Chat Icon -->
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
+        <!-- Notification Badge -->
+        <span id="chatNotification" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+            1
+        </span>
+        <!-- Tooltip -->
+        <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block">
+            <div class="bg-gray-900 text-white text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap">
+                Chat with Yaa, our AI assistant
             </div>
         </div>
+    </button>
+</div>
+
+<!-- Chat Window -->
+<div id="chatWindow" class="fixed bottom-6 right-6 w-96 bg-white rounded-2xl shadow-2xl z-50 hidden flex flex-col" style="height: 600px; max-height: 90vh;">
+    
+    <!-- Chat Header -->
+    <div class="bg-gradient-to-r from-green-700 to-green-800 text-white p-4 rounded-t-2xl flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <!-- Yaa's Avatar -->
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">
+                👩🏾‍💼
+            </div>
+            <div>
+                <h3 class="font-bold text-lg">Yaa</h3>
+                <p class="text-sm text-green-100 flex items-center gap-1">
+                    <span class="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
+                    Online now
+                </p>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="hover:bg-green-600 p-2 rounded-full transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
     </div>
+    
+    <!-- Chat Messages -->
+    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+        <!-- Initial greeting (will be added via JS) -->
+    </div>
+    
+    <!-- Quick Actions -->
+    <div id="quickActions" class="px-4 py-2 border-t border-gray-200 bg-white">
+        <div class="flex gap-2 overflow-x-auto pb-2">
+            <button onclick="sendQuickMessage('What products do you supply?')" 
+                    class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-green-100 transition">
+                📦 Products
+            </button>
+            <button onclick="sendQuickMessage('How do I place an order?')" 
+                    class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-green-100 transition">
+                🛒 Order
+            </button>
+            <button onclick="sendQuickMessage('Book appointment')" 
+                    class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-green-100 transition">
+                📅 Book Meeting
+            </button>
+            <button onclick="sendQuickMessage('Request callback')" 
+                    class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-green-100 transition">
+                📞 Call Me
+            </button>
+        </div>
+    </div>
+    
+    <!-- Chat Input -->
+    <div class="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+        <form onsubmit="sendMessage(event)" class="flex gap-2">
+            <input type="text" 
+                   id="chatInput" 
+                   placeholder="Type your message..." 
+                   class="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-green-500 text-sm"
+                   autocomplete="off">
+            <button type="submit" 
+                    class="bg-green-700 hover:bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+            </button>
+        </form>
+        <p class="text-xs text-gray-500 mt-2 text-center">Powered by AI • Responses may vary</p>
+    </div>
+    
+</div>
 
+<!-- Appointment Booking Modal -->
+<div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-2xl font-bold">Book Appointment</h3>
+            <button onclick="closeAppointmentModal()" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <form onsubmit="submitAppointment(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Full Name *</label>
+                <input type="text" id="apt_name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Email *</label>
+                <input type="email" id="apt_email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Phone *</label>
+                <input type="tel" id="apt_phone" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Business Type *</label>
+                <select id="apt_business" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+                    <option value="">Select...</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Executive Chef">Executive Chef</option>
+                    <option value="Event Catering">Event Catering</option>
+                    <option value="Corporate">Corporate</option>
+                    <option value="Supermarket">Supermarket</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Preferred Date *</label>
+                    <input type="date" id="apt_date" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Preferred Time *</label>
+                    <input type="time" id="apt_time" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Notes (Optional)</label>
+                <textarea id="apt_notes" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500"></textarea>
+            </div>
+            
+            <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold transition">
+                Book Appointment
+            </button>
+        </form>
+    </div>
+</div>
 
-    <!--FADE-IN-ANIMATION (UPDATED CODE)-->
-    <style>
-.fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease-out;
+<!-- Callback Request Modal -->
+<div id="callbackModal" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-2xl font-bold">Request Callback</h3>
+            <button onclick="closeCallbackModal()" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <form onsubmit="submitCallback(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Full Name *</label>
+                <input type="text" id="cb_name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Phone Number *</label>
+                <input type="tel" id="cb_phone" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Preferred Time *</label>
+                <select id="cb_time" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500">
+                    <option value="">Select...</option>
+                    <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
+                    <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
+                    <option value="Evening (4 PM - 7 PM)">Evening (4 PM - 7 PM)</option>
+                    <option value="Anytime">Anytime</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium mb-1">Reason for Call (Optional)</label>
+                <textarea id="cb_reason" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500"></textarea>
+            </div>
+            
+            <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold transition">
+                Request Callback
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Chat animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+
+.chat-message {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Scrollbar styling */
+#chatMessages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 </style>
 
 <script>
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-});
+// AI Chat Widget JavaScript
+let sessionId = 'session_' + Date.now();
+let chatOpen = false;
+let conversationStarted = false;
 
-document.querySelectorAll('.fade-in').forEach(el => {
-    observer.observe(el);
-});
-</script>
+// Show chat button after 1 minute (60 seconds)
+setTimeout(() => {
+    const chatButton = document.getElementById('chatButton');
+    chatButton.classList.remove('hidden');
+    chatButton.style.animation = 'slideUp 0.5s ease-out';
     
-    <!-- AI Chat Script -->
-    <script>
-        const chatBtn = document.getElementById('aiChatBtn');
-        const chatWindow = document.getElementById('aiChatWindow');
-        const chatClose = document.getElementById('aiChatClose');
-        const chatForm = document.getElementById('aiChatForm');
-        const chatInput = document.getElementById('aiChatInput');
-        const chatMessages = document.getElementById('aiChatMessages');
-        
-        let sessionId = 'session_' + Date.now();
-        
-        // Toggle chat window
-        chatBtn.addEventListener('click', () => {
-            chatWindow.classList.toggle('hidden');
-            if (!chatWindow.classList.contains('hidden')) {
-                chatInput.focus();
-            }
-        });
-        
-        chatClose.addEventListener('click', () => {
-            chatWindow.classList.add('hidden');
-        });
-        
-        // Send message
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            chatInput.value = '';
-            
-            // Send to backend
-            try {
-                const response = await fetch('/api/chat/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        session_id: sessionId
-                    })
-                });
-                
-                const data = await response.json();
-                addMessage(data.response, 'assistant');
-            } catch (error) {
-                addMessage('Sorry, I encountered an error. Please try again.', 'error');
-            }
-        });
-        
-        function addMessage(text, role) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'flex gap-2 ' + (role === 'user' ? 'justify-end' : '');
-            
-            if (role === 'assistant') {
-                messageDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-green-700">🤖</span>
-                    </div>
-                    <div class="bg-gray-100 p-3 rounded-lg max-w-[80%]">
-                        <p class="text-sm whitespace-pre-line">${text}</p>
-                    </div>
-                `;
-            } else {
-                messageDiv.innerHTML = `
-                    <div class="bg-green-700 text-white p-3 rounded-lg max-w-[80%]">
-                        <p class="text-sm">${text}</p>
-                    </div>
-                `;
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Auto-open chat after showing button (optional)
+    setTimeout(() => {
+        if (!conversationStarted) {
+            toggleChat();
         }
-    </script>
+    }, 2000); // 2 seconds after button appears
+}, 60000); // 60 seconds = 1 minute
 
+// FOR TESTING: Show immediately (remove this in production)
+setTimeout(() => {
+    const chatButton = document.getElementById('chatButton');
+    chatButton.classList.remove('hidden');
+}, 1000); // 1 second for testing
+
+function toggleChat() {
+    const chatWindow = document.getElementById('chatWindow');
+    const chatButton = document.getElementById('chatButton');
+    const notification = document.getElementById('chatNotification');
     
-<!--Updared code-->
-    <script>
-    document.addEventListener("scroll", function () {
-       const parallax = document.querySelector(".parallax-bg");
-       let scrollPosition = window.pageYOffset;
-       if (parallax) {
-           parallax.style.transform = "translateY(" + scrollPosition * 0.4 + "px)";
-       }
-});
-    </script>
-
-
-    <!--Upadted Code-->
-   <style>
-.fade-section {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease;
-}
-.fade-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-</style>
-
-<script>
-document.addEventListener("scroll", function() {
-    document.querySelectorAll(".fade-section").forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-            el.classList.add("visible");
+    chatOpen = !chatOpen;
+    
+    if (chatOpen) {
+        chatWindow.classList.remove('hidden');
+        chatButton.classList.add('hidden');
+        notification.classList.add('hidden');
+        
+        // Send initial greeting if first time
+        if (!conversationStarted) {
+            setTimeout(() => {
+                addMessage('assistant', "Hello! I'm Yaa, your Terra Foods assistant. 👋<br><br>How can I help you today?");
+                conversationStarted = true;
+            }, 500);
         }
+        
+        // Focus input
+        document.getElementById('chatInput').focus();
+    } else {
+        chatWindow.classList.add('hidden');
+        chatButton.classList.remove('hidden');
+    }
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+    
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // Add user message to chat
+    addMessage('user', message);
+    input.value = '';
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Send to backend
+    fetch('/api/chat/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            message: message,
+            session_id: sessionId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        removeTypingIndicator();
+        addMessage('assistant', data.response);
+        
+        // Check if booking intent detected
+        if (data.booking_intent === 'appointment') {
+            setTimeout(() => openAppointmentModal(), 1000);
+        } else if (data.booking_intent === 'callback') {
+            setTimeout(() => openCallbackModal(), 1000);
+        }
+    })
+    .catch(error => {
+        removeTypingIndicator();
+        addMessage('assistant', "I apologize, I'm having trouble connecting. Please try contacting us via WhatsApp at +233 XXX XXX XXX.");
+        console.error('Error:', error);
     });
-});
+}
+
+function sendQuickMessage(message) {
+    document.getElementById('chatInput').value = message;
+    sendMessage(new Event('submit'));
+}
+
+function addMessage(role, content) {
+    const messagesContainer = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message flex ' + (role === 'user' ? 'justify-end' : 'justify-start');
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'max-w-[80%] rounded-2xl px-4 py-3 ' + 
+        (role === 'user' 
+            ? 'bg-green-700 text-white rounded-br-none' 
+            : 'bg-white border border-gray-200 rounded-bl-none shadow-sm');
+    
+    bubble.innerHTML = content;
+    
+    messageDiv.appendChild(bubble);
+    messagesContainer.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function showTypingIndicator() {
+    const messagesContainer = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typingIndicator';
+    typingDiv.className = 'flex justify-start';
+    typingDiv.innerHTML = `
+        <div class="bg-white border border-gray-200 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
+            <div class="flex gap-1">
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) indicator.remove();
+}
+
+// Appointment Modal Functions
+function openAppointmentModal() {
+    document.getElementById('appointmentModal').classList.remove('hidden');
+    // Set minimum date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('apt_date').min = tomorrow.toISOString().split('T')[0];
+}
+
+function closeAppointmentModal() {
+    document.getElementById('appointmentModal').classList.add('hidden');
+}
+
+function submitAppointment(event) {
+    event.preventDefault();
+    
+    const appointmentData = {
+        name: document.getElementById('apt_name').value,
+        email: document.getElementById('apt_email').value,
+        phone: document.getElementById('apt_phone').value,
+        business_type: document.getElementById('apt_business').value,
+        date: document.getElementById('apt_date').value,
+        time: document.getElementById('apt_time').value,
+        notes: document.getElementById('apt_notes').value
+    };
+    
+    fetch('/api/chat/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: 'book_appointment',
+            session_id: sessionId,
+            appointment_data: appointmentData
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        closeAppointmentModal();
+        addMessage('assistant', data.response);
+        event.target.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to book appointment. Please try again or contact us directly.');
+    });
+}
+
+// Callback Modal Functions
+function openCallbackModal() {
+    document.getElementById('callbackModal').classList.remove('hidden');
+}
+
+function closeCallbackModal() {
+    document.getElementById('callbackModal').classList.add('hidden');
+}
+
+function submitCallback(event) {
+    event.preventDefault();
+    
+    const callbackData = {
+        name: document.getElementById('cb_name').value,
+        phone: document.getElementById('cb_phone').value,
+        time: document.getElementById('cb_time').value,
+        reason: document.getElementById('cb_reason').value
+    };
+    
+    fetch('/api/chat/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: 'request_callback',
+            session_id: sessionId,
+            callback_data: callbackData
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        closeCallbackModal();
+        addMessage('assistant', data.response);
+        event.target.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to request callback. Please try again or contact us directly.');
+    });
+}
 </script>
-
-
 
 </body>
 </html>
