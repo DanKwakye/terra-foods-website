@@ -108,7 +108,9 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
             z-index: 1000;
             border-radius: 4px;
-            margin-top: 8px;
+            margin-top: 0;
+            top: 100%;
+            left: 0;
         }
         
         .dropdown:hover .dropdown-content {
@@ -122,6 +124,11 @@
             display: block;
             font-size: 14px;
             transition: background-color 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
         }
         
         .dropdown-content a:hover {
@@ -195,23 +202,23 @@
                     <a href="/" class="text-gray-700 hover:text-green-700 font-medium transition">Home</a>
                     <a href="/products/" class="text-gray-700 hover:text-green-700 font-medium transition">Products</a>
                     
-                    <!-- Sectors Dropdown -->
-                    <div class="dropdown">
-                        <button class="text-gray-700 hover:text-green-700 font-medium transition flex items-center gap-1">
-                            Sectors
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="/sectors/hotels/">Hotels</a>
-                            <a href="/sectors/restaurants/">Restaurants</a>
-                            <a href="/sectors/executive-chefs/">Executive Chefs</a>
-                            <a href="/sectors/event-catering/">Event Catering</a>
-                            <a href="/sectors/corporate/">Corporate</a>
-                            <a href="/sectors/supermarkets">Supermarkets</a>
-                        </div>
-                    </div>
+                  <!-- Sectors Dropdown (FIXED) -->
+<div class="dropdown">
+    <a href="#" class="text-gray-700 hover:text-green-700 font-medium transition flex items-center gap-1">
+        Sectors
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+    </a>
+    <div class="dropdown-content">
+        <a href="/sectors/hotels/">Hotels</a>
+        <a href="/sectors/restaurants/">Restaurants</a>
+        <a href="/sectors/executive-chefs/">Executive Chefs</a>
+        <a href="/sectors/event-catering/">Event Catering</a>
+        <a href="/sectors/corporate/">Corporate</a>
+        <a href="/sectors/supermarket/">Supermarket</a>
+    </div>
+</div>
                     
                     <a href="/about/" class="text-gray-700 hover:text-green-700 font-medium transition">About</a>
                     <a href="/contact/" class="text-gray-700 hover:text-green-700 font-medium transition">Contact</a>
