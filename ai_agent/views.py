@@ -22,7 +22,7 @@ ABOUT TERRA FOODS:
 - We deliver fresh organic vegetables, fruits, herbs, spices, eggs, and premium oils (virgin coconut oil) throughout Accra
 - We serve hotels, restaurants, executive chefs, event catering, corporate offices, and supermarkets
 - Key features: Fresh from farm, lightning-fast delivery, quality guarantee, wide selection
-- Contact: WhatsApp/Phone: +233 XXX XXX XXX, Email: info@terrafoods.com
+- Contact: WhatsApp/Phone: +233 54 446 8232, Email: info@terrafoodsgh.com
 - Sourcing: Direct from trusted local farmers and verified suppliers/importers
 
 FREQUENTLY ASKED QUESTIONS & ANSWERS:
