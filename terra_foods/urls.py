@@ -37,6 +37,7 @@ urlpatterns = [
     path('contact/', page_views.contact, name='contact'),
     path('privacy-policy/', page_views.privacy_policy, name='privacy_policy'),
     path('terms-of-service/', page_views.terms_of_service, name='terms_of_service'),
+    path('cookie-policy/', page_views.cookie_policy, name='cookie_policy'),
 
     #Sectors
     path('sectors/<slug:sector_slug>/', sector_views.sector_detail, name='sector_detail'),

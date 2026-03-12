@@ -18,3 +18,7 @@ def privacy_policy(request):
 def terms_of_service(request):
     """Terms of Service page"""
     return render(request, 'pages/terms_of_service.html')
+
+def cookie_policy(request):
+    """Cookie Policy page"""
+    return render(request, 'pages/cookie_policy.html')
