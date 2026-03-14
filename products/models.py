@@ -16,6 +16,14 @@ class Category(models.Model):
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name_plural = "Categories"
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['is_active', 'order']),
+        ]
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -25,9 +33,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-    class Meta:
-        ordering = ['order', 'name']
-        verbose_name_plural = "Categories"
+    #class Meta:
+       # ordering = ['order', 'name']
+       # verbose_name_plural = "Categories"
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -70,6 +78,13 @@ class Product(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['category', '-created_at']),
+            models.Index(fields=['is_featured', '-created_at']),
+            models.Index(fields=['is_available']),
+            models.Index(fields=['-views']),
+        ]
 
 
 class ProductReview(models.Model):
