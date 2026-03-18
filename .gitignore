@@ -30,6 +30,7 @@ static_root/
 .env
 .env.local
 .env.*.local
+.env.production
 
 # IDE
 .vscode/
